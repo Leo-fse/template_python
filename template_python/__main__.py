@@ -14,7 +14,6 @@ def main():
 
     if args.debug:
         # デバッグ時の設定
-        os.environ["PYDEVD_DISABLE_FILE_VALIDATION"] = "1"
         subprocess.run(["python", "-Xfrozen_modules=off", module_example_path], check=True)
     else:
         # 本番環境の設定
