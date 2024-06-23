@@ -1,8 +1,9 @@
 import subprocess
 
 from config.log_config import log_decorator, logger
+from template_python.libs.database import OracleDatabase
 from template_python.libs.inner_module_example import inner_module_example
-from template_python.setting import OUTER_MODULE_DIR, debug
+from template_python.setting import OUTER_MODULE_DIR, config, debug
 
 
 @log_decorator
@@ -26,6 +27,10 @@ def execute_outer_module(execute_task_list: list[str] = ["outer_module_example.p
 @log_decorator
 def main():
     inner_module_example()
+    db_config = config["Development"]
+    o = OracleDatabase(db_config)
+    data = o.fetch_data("select * from test")
+    print(data)
 
 
 if __name__ == "__main__":
