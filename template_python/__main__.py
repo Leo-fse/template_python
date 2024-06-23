@@ -1,14 +1,10 @@
-import argparse
-import os
 import subprocess
 from pathlib import Path
 
+from template_python.setting import args
+
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the module example script.")
-    parser.add_argument("--debug", action="store_true", help="Enable debug mode")
-    args = parser.parse_args()
-
     current_directory = Path(__file__).parent
     module_example_path = current_directory / "module_example.py"
 
