@@ -27,10 +27,15 @@ def execute_outer_module(execute_task_list: list[str] = ["outer_module_example.p
 @log_decorator
 def main():
     inner_module_example()
-    db_config = config["Development"]
-    o = OracleDatabase(db_config)
-    data = o.fetch_data("select * from test")
-    print(data)
+    logger.debug("main is finished")
+    logger.info("main is finished")
+    logger.warning("main is finished")
+    logger.error("main is finished")
+    logger.critical("main is finished")
+    # db_config = config["Development"]
+    # o = OracleDatabase(db_config)
+    # data = o.fetch_data("select * from test")
+    # print(data)
 
 
 if __name__ == "__main__":
