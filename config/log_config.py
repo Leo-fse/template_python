@@ -1,5 +1,6 @@
 import functools
 import logging
+import os
 import re
 import time
 import traceback
@@ -27,17 +28,29 @@ class ColoredFormatter(logging.Formatter):
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-myhandler = logging.StreamHandler()
-myhandler.setFormatter(ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s"))
-logger.addHandler(myhandler)
+console_handler = logging.StreamHandler()
+console_handler.setFormatter(ColoredFormatter("%(asctime)s - %(levelname)s - %(message)s"))
+logger.addHandler(console_handler)
 
 # ログ出力は実行日時毎に分ける
 
 # ログファイルのパス
 log_file_path = LOG_DIR / f"log_{time.strftime('%Y%m%d_%H%M%S')}.log"
 
+# ログファイルの履歴を10回分残して、それ以上は削除するように修正
+log_dir = LOG_DIR
+log_file_pattern = "log_*.log"
+log_files = sorted(log_dir.glob(log_file_pattern), key=os.path.getctime, reverse=True)
+
+# ログファイルの履歴を10回分残して、それ以上は削除
+if len(log_files) > 10:
+    for file_to_delete in log_files[10:]:
+        os.remove(file_to_delete)
+
 file_handler = logging.FileHandler(log_file_path)
-file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+file_handler.setFormatter(
+    logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+)  # カラーコードを削除
 logger.addHandler(file_handler)
 
 
